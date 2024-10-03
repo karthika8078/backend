@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Employee</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Employee Management</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/add-employee">Add Employee</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-3">
+        <h2>Add Employee</h2>
+        <form id="addEmployeeForm">
+            <div class="form-group">
+                <label for="name">Employee Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="designation">Designation:</label>
+                <input type="text" class="form-control" id="designation" name="designation" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" class="form-control" id="location" name="location" required>
+            </div>
+            <div class="form-group">
+                <label for="salary">Salary:</label>
+                <input type="number" class="form-control" id="salary" name="salary" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Employee</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $('#addEmployeeForm').on('submit', function(e) {
+            e.preventDefault();
+            const formData = {
+                name: $('#name').val(),
+                designation: $('#designation').val(),
+                location: $('#location').val(),
+                salary: $('#salary').val(),
+            };
+
+            $.post('/api/employees', formData, function() {
+                window.location.href = '/';
+            });
+        });
+    </script>
+</body>
+</html>

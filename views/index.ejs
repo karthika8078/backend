@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Employee Management</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/add-employee">Add Employee</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-3">
+        <h2>Employee List</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Designation</th>
+                    <th>Location</th>
+                    <th>Salary</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="employee-table">
+                <!-- Employee data will be populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Fetch and display employees
+        function fetchEmployees() {
+            $.get('/api/employees', function(data) {
+                let rows = '';
+                data.forEach(employee => {
+                    rows += `
+                        <tr>
+                            <td>${employee.name}</td>
+                            <td>${employee.designation}</td>
+                            <td>${employee.location}</td>
+                            <td>${employee.salary}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" onclick="editEmployee('${employee._id}')">Edit</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteEmployee('${employee._id}')">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                $('#employee-table').html(rows);
+            });
+        }
+
+        // Delete employee
+        function deleteEmployee(id) {
+            $.ajax({
+                url: `/api/employees/${id}`,
+                type: 'DELETE',
+                success: function() {
+                    fetchEmployees();
+                }
+            });
+        }
+
+        // Edit employee
+        function editEmployee(id) {
+            window.location.href = `/update-employee/${id}`;
+        }
+
+        $(document).ready(function() {
+            fetchEmployees();
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+      
+       
+    
+    
